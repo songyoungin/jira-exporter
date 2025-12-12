@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(source /Users/serena/Documents/development/private/jira-ticket-exporter/.venv/bin/activate:*)",
+      "Bash(pre-commit run:*)",
+      "Bash(uv sync:*)"
+    ]
+  }
+}
