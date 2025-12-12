@@ -6,12 +6,17 @@ import os
 
 load_dotenv()
 
-# Jira 도메인 및 사용자 설정
-JIRA_DOMAIN = "https://socarcorp.atlassian.net"
-EMAIL = "serena@socar.kr"
+# Jira 도메인 및 사용자 설정 (환경 변수에서 로드)
+JIRA_DOMAIN = os.getenv("JIRA_DOMAIN")
+JIRA_EMAIL = os.getenv("JIRA_EMAIL")
 # Jira API 토큰 발급: https://id.atlassian.com/manage-profile/security/api-tokens
-API_TOKEN = os.getenv("JIRA_API_TOKEN")
-if not API_TOKEN:
+JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
+
+if not JIRA_DOMAIN:
+    raise ValueError("JIRA_DOMAIN 환경 변수가 설정되지 않았습니다.")
+if not JIRA_EMAIL:
+    raise ValueError("JIRA_EMAIL 환경 변수가 설정되지 않았습니다.")
+if not JIRA_API_TOKEN:
     raise ValueError("JIRA_API_TOKEN 환경 변수가 설정되지 않았습니다.")
 
 # 검색 조건: 2025년 1월 1일 이후 생성된 티켓 중, 담당자이거나 참여자로 포함된 티켓 조회
@@ -24,7 +29,7 @@ FIELDS = ["key", "summary", "creator", "created", "status", "priority", "parent"
 
 # 데이터 수집
 url = f"{JIRA_DOMAIN}/rest/api/3/search/jql"
-auth = HTTPBasicAuth(EMAIL, API_TOKEN)
+auth = HTTPBasicAuth(JIRA_EMAIL, JIRA_API_TOKEN)
 headers = {"Accept": "application/json", "Content-Type": "application/json"}
 
 all_issues = []
@@ -75,12 +80,13 @@ print("=" * 50)
 for issue in all_issues:
     key = issue["key"]
     summary = issue["fields"]["summary"]
-    status = (
-        issue["fields"]["status"]["name"]
-        if issue["fields"].get("status")
-        else "Unknown"
-    )
-    created = issue["fields"]["created"][:10]
+    status_obj = issue["fields"].get("status")
+    status = status_obj.get("name", "Unknown") if status_obj else "Unknown"
+    created_raw = issue["fields"].get("created")
+    created = created_raw[:10] if created_raw and len(created_raw) >= 10 else "Unknown"
     parent = issue["fields"].get("parent")
-    parent_info = f"[{parent['key']}] {parent['fields']['summary']}" if parent else "-"
+    if parent and "key" in parent and parent.get("fields", {}).get("summary"):
+        parent_info = f"[{parent['key']}] {parent['fields']['summary']}"
+    else:
+        parent_info = "-"
     print(f"[{key}] {summary} (상태: {status}, 생성일: {created}, 상위: {parent_info})")

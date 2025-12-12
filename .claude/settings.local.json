@@ -4,7 +4,10 @@
       "WebSearch",
       "Bash(source /Users/serena/Documents/development/private/jira-ticket-exporter/.venv/bin/activate:*)",
       "Bash(pre-commit run:*)",
-      "Bash(uv sync:*)"
+      "Bash(uv sync:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Jira 티켓 내보내기 프로젝트 초기 구조 설정\n\n- Jira REST API를 사용한 티켓 조회 스크립트(main.py) 추가\n- uv 패키지 매니저 기반 프로젝트 설정(pyproject.toml, uv.lock)\n- pre-commit 훅 설정(ruff, mypy)\n- Python 3.13 버전 지정\n- 환경 변수 예시 파일(.env.example) 추가\n- Claude Code 프로젝트 가이드(CLAUDE.md) 추가\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
