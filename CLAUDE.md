@@ -15,10 +15,12 @@ Jira 티켓을 가져와서 내보내는 Python 스크립트입니다. Jira REST
 
 ## 환경 변수 설정
 
-`.env` 파일을 생성하고 다음 변수를 설정:
+`.env` 파일을 생성하고 다음 변수를 설정 (`.env.example` 참고):
 
 ```
-JIRA_API_TOKEN=your_api_token_here
+JIRA_DOMAIN=https://your-domain.atlassian.net
+JIRA_EMAIL=your-email@example.com
+JIRA_API_TOKEN=your-jira-api-token
 ```
 
 API 토큰 발급: https://id.atlassian.com/manage-profile/security/api-tokens
