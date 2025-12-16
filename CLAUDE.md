@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-Jira 티켓을 가져와서 내보내는 Python 스크립트입니다. Jira REST API를 사용하여 JQL 쿼리 기반으로 티켓을 검색하고 결과를 출력합니다.
+Jira REST API를 사용하여 티켓과 프로젝트 설정을 내보내는 Python CLI 스크립트 모음입니다.
 
 ## 개발 환경
 
@@ -21,6 +21,7 @@ Jira 티켓을 가져와서 내보내는 Python 스크립트입니다. Jira REST
 JIRA_DOMAIN=https://your-domain.atlassian.net
 JIRA_EMAIL=your-email@example.com
 JIRA_API_TOKEN=your-jira-api-token
+JIRA_PROJECT_KEY=YOUR_PROJECT_KEY
 ```
 
 API 토큰 발급: https://id.atlassian.com/manage-profile/security/api-tokens
@@ -31,16 +32,19 @@ API 토큰 발급: https://id.atlassian.com/manage-profile/security/api-tokens
 # 의존성 설치
 uv sync
 
-# 스크립트 실행
-source .venv/bin/activate && python main.py
+# 티켓 내보내기 실행
+source .venv/bin/activate && python export_jira_tickets.py
+
+# 프로젝트 설정 내보내기 실행
+source .venv/bin/activate && python export_jira_space_settings.py
 
 # pre-commit 실행 (린트/포맷팅)
 source .venv/bin/activate && pre-commit run --all-files
 ```
 
-## 코드 커스터마이징
+## 스크립트 구조
 
-`main.py`에서 다음 상수를 수정하여 검색 조건 변경 가능:
-
-- `JQL_QUERY`: Jira 검색 쿼리 (JQL 문법)
-- `FIELDS`: 가져올 필드 목록
+- `export_jira_tickets.py`: JQL 쿼리 기반 티켓 검색 및 출력 (페이지네이션 지원)
+  - `JQL_QUERY`, `FIELDS` 상수로 검색 조건 커스터마이징
+- `export_jira_space_settings.py`: 프로젝트 컨텍스트 정보(커스텀 필드, 이슈 타입별 상태) 조회
+  - `JIRA_PROJECT_KEY` 환경 변수 필요
