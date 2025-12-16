@@ -33,12 +33,12 @@ API 토큰은 [Atlassian API 토큰 관리](https://id.atlassian.com/manage-prof
 ## 사용법
 
 ```bash
-source .venv/bin/activate && python main.py
+source .venv/bin/activate && python export_jira_tickets.py
 ```
 
 ## 커스터마이징
 
-`main.py`에서 다음 상수를 수정하여 검색 조건을 변경할 수 있습니다:
+`export_jira_tickets.py`에서 다음 상수를 수정하여 검색 조건을 변경할 수 있습니다:
 
 - `JQL_QUERY`: Jira 검색 쿼리 (JQL 문법)
 - `FIELDS`: 가져올 필드 목록
